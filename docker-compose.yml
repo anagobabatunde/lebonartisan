@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  back:
+    image: back
+    build: ./back/
+    ports:
+      - "5000:5000"
+    networks:
+      - lebonartisan
+    volumes:
+      - ./back/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo
+  front:
+    image: front
+    build: ./front/
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - lebonartisan
+    volumes:
+      - ./front/:/usr/src/app
+      - /usr/src/app/node_modules
+  mongo:
+    image: mongo:4.4-bionic
+    ports:
+      - "27017:27017"
+    networks:
+      - lebonartisan
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_HOSTNAME=${MONGO_HOSTNAME}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DB=${MONGO_DB}
+    volumes:
+      - data:/data/db
+  db-ui:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    env_file: .env
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=devroot
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=devroot
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+    depends_on:
+      - mongo
+    networks:
+      - lebonartisan
+
+networks:
+  lebonartisan:
+    driver: bridge
+volumes:
+  data:
+    driver: local
