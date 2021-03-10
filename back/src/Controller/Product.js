@@ -5,7 +5,7 @@ var ObjectId = require('mongodb').ObjectId;
 exports.index = function (req, res) {
     db.connect((err) => {
         if (err) throw err
-        db.db.collection('Product').find().toArray().then(result => res.json({
+        db.client.collection('Product').find().toArray().then(result => res.json({
             status: "success",
             message: "Got Product Successfully!",
             data: result
@@ -25,7 +25,7 @@ exports.add = function (req, res) {
             warranty_years: req.body.warranty_years,
             available: req.body.available
         };
-        db.db.collection('Product').insertOne(Product).then(result => res.json({
+        db.client.collection('Product').insertOne(Product).then(result => res.json({
             status: "success",
             message: "Add Product Successfully!",
             data: Product
@@ -41,7 +41,7 @@ exports.getOne = function (req, res) {
         console.log(req.params)
         if (req.params.product_id.length >= 12)
             var objectIds = new ObjectId(req.params.product_id)
-        db.db.collection('Product').findOne({ "_id": req.params.product_id.length > 10 ? objectIds : parseInt(req.params.product_id) }).then(result => res.json({
+        db.client.collection('Product').findOne({ "_id": req.params.product_id.length > 10 ? objectIds : parseInt(req.params.product_id) }).then(result => res.json({
             status: "success",
             message: "Get Product Successfully!",
             data: result
@@ -65,7 +65,7 @@ exports.update = function (req, res) {
         console.log(req.params)
         if (req.params.product_id.length >= 12)
             var objectIds = new ObjectId(req.params.product_id)
-        db.db.collection('Product').findOneAndUpdate(
+        db.client.collection('Product').findOneAndUpdate(
             {
                 "_id": req.params.product_id.length > 10 ?
                     objectIds : parseInt(req.params.product_id)
@@ -89,7 +89,7 @@ exports.delete = function (req, res) {
         console.log(req.params)
         if (req.params.product_id.length >= 12)
             var objectIds = new ObjectId(req.params.product_id)
-        db.db.collection('Product').deleteOne({ "_id": req.params.product_id.length > 10 ? objectIds : parseInt(req.params.product_id) }).then(result => res.json({
+        db.client.collection('Product').deleteOne({ "_id": req.params.product_id.length > 10 ? objectIds : parseInt(req.params.product_id) }).then(result => res.json({
             status: "success",
             message: "Delete Product Successfully!",
             data: result

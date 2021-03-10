@@ -8,14 +8,17 @@ const {
     MONGO_ROOT_USER,
     MONGO_ROOT_PASSWORD
 } = process.env;
-const url = `mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`
-
+const url = `mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:${MONGO_PORT}/${MONGO_DB}?authSource=admin`
 
 module.exports.connect = function connect(callback) {
     MongoClient.connect(url, {
         useUnifiedTopology: true
     }, function (err, client) {
-        module.exports.db = client.db(MONGO_DB);
+        try {
+            module.exports.client = client.db(MONGO_DB);
+        } catch {
+            throw err
+        }
         callback(err);
     });
 };
