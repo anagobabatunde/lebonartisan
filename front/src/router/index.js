@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 // import LoginV from "../views/login"
 import Products from "../Views/Products"
-
+import ProductDetail from "../Pages/Product/index"
 export default function Routing() {
     return (
         <Router>
@@ -39,6 +39,9 @@ export default function Routing() {
                     </Route>
                     <Route path="/products">
                         <Products />
+                    </Route>
+                    <Route path="/product/:id">
+                        <ProductDetail />
                     </Route>
                     <Route path="/">
                         <Home />

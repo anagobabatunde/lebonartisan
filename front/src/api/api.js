@@ -21,7 +21,14 @@ export const API = {
     },
     getProducts() {
         return axios
-            .get(`${constants.route.get.products}`)
+            .get(`${constants.route.get.products}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Credentials': 'true'
+                }
+            })
             .then((response) => response.data)
             .catch((error) => error.response.data);
     },
