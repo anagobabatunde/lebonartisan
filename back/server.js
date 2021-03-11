@@ -13,7 +13,7 @@ db.connect((err) => {
     if (err) throw err
     insertProduct(db.client)
 })
-const insertProduct = function (db, callback) {
+const insertProduct = function (db) {
     const collection = db.collection('Product');
     collection.insertMany([
         { "_id": 1, "name": "AC1 Phone1", "type": "phone", "price": 200.05, "rating": 3.8, "warranty_years": 1, "available": true },
@@ -22,7 +22,6 @@ const insertProduct = function (db, callback) {
         { "_id": 4, "name": "AC4 Phone4", "type": "phone", "price": 50.20, "rating": 3, "warranty_years": 2, "available": true }
     ], function (err, result) {
         console.log("Inserted 3 product into the collection");
-        callback(result);
     });
 }
 app.use(cors())

@@ -8,3 +8,5 @@ restart:
 build-all:
 	cd front && $(MAKE)
 	cd back && $(MAKE)
+down-reset:
+	docker-compose down -v

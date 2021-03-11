@@ -7,6 +7,7 @@ import {
 // import LoginV from "../views/login"
 import Products from "../Views/Products"
 import ProductDetail from "../Pages/Product/index"
+import CreateProduct from "../Pages/Product/create"
 export default function Routing() {
     return (
         <Router>
@@ -25,6 +26,9 @@ export default function Routing() {
                         <li>
                             <Link to="/products">Products</Link>
                         </li>
+                        <li>
+                            <Link to="/new">Create Product</Link>
+                        </li>
                     </ul>
                 </nav>
 
@@ -39,6 +43,9 @@ export default function Routing() {
                     </Route>
                     <Route path="/products">
                         <Products />
+                    </Route>
+                    <Route path="/new">
+                        <CreateProduct />
                     </Route>
                     <Route path="/product/:id">
                         <ProductDetail />
