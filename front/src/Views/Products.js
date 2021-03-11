@@ -12,17 +12,16 @@ const Products = () => {
         API.getProducts().then(data => {
             setProducts(data.data)
         })
+    }, []);
 
+    useEffect(() => {
         socket.on("onProductAdd", data => {
             console.log("product", data.ops[0]);
-            window.location.reload(false);
-            setTimeout(() => {
-                API.getProducts().then(data => {
-                    setProducts(data.data)
-                })
-            }, 1000)
+            API.getProducts().then(data => {
+                setProducts(data.data)
+            })
         });
-    }, []);
+    }, [socket]);
 
 
     return (
