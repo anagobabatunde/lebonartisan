@@ -62,11 +62,31 @@ const UpdateProduct = ({ id, product }) => {
         },
     });
 
+    function handleOnclick(product) {
+        let r = window.confirm(`Do you want to delete ${product.name} ?`);
+        let txt
+        if (r == true) {
+            txt = "You pressed OK!";
+            API.deleteProduct(product._id).then((data) => {
+                console.log(data)
+                setIsOpen(true)
+                setType(data.status)
+                setMessage(data.message)
+
+                setTimeout(function () {
+                    setIsOpen(false)
+                    history.push('/products')
+                }, 2000);
+            })
+        } else {
+            txt = "You pressed Cancel!";
+        }
+    }
 
 
     return (
         <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
-            <h1>Update product</h1>
+            <h1 style={{ textAlign: 'center' }}>Update product</h1>
             <div style={{ display: "flex", width: "50%", flexDirection: "column", justifyContent: "space-around", margin: "0 auto" }}>
                 <TextField
                     style={{ marginBottom: "30px" }}
@@ -145,8 +165,11 @@ const UpdateProduct = ({ id, product }) => {
                     />
                 </div>
 
-                <Button color="primary" variant="contained" type="submit">
+                <Button color="primary" variant="contained" type="submit" style={{ marginBottom: "10px" }}>
                     Edit
+        </Button>
+                <Button color="secondary" variant="contained" onClick={() => handleOnclick(product)}>
+                    Delete
         </Button>
             </div>
             <Message message={message} isOpen={isOpen} type={type} />

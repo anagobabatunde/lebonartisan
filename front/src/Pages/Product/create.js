@@ -44,7 +44,6 @@ const WithMaterialUI = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
             API.createProduct(values).then(data => {
                 console.log(data)
                 setIsOpen(true)
@@ -62,6 +61,7 @@ const WithMaterialUI = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', width: "100%" }}>
             <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
+                <h1 style={{ textAlign: 'center' }}>Create product</h1>
                 <div style={{ display: "flex", width: "50%", flexDirection: "column", justifyContent: "space-around", margin: "0 auto" }}>
                     <TextField
                         style={{ marginBottom: "30px" }}

@@ -6,6 +6,17 @@ const db = require("./src/database")
 const cors = require('cors')
 const dotenv = require('dotenv');
 dotenv.config();
+const SocketService = require("./src/Socket/socket")
+app.use(cors())
+const http = require('http').createServer(app)
+const io = require("socket.io")(http, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST", "DELETE", "PATCH"],
+        // allowedHeaders: ["my-custom-header"],
+        credentials: true
+    }
+});
 
 let port = process.env.BACK_PORT || 5000;
 
@@ -24,7 +35,7 @@ const insertProduct = function (db) {
         console.log("Inserted 3 product into the collection");
     });
 }
-app.use(cors())
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -34,6 +45,31 @@ app.get('/', (req, res) => {
     res.send('Welcome to Express')
 });
 app.use('/api', apiRoutes)
-app.listen(port, function () {
+
+
+let interval;
+
+// io.on("connection", (socket) => {
+//     console.log("New client connected");
+//     if (interval) {
+//         clearInterval(interval);
+//     }
+//     interval = setInterval(() => {
+//         getApiAndEmit(socket, "je suis la")
+//     }, 1000);
+//     socket.on("disconnect", () => {
+//         console.log("Client disconnected");
+//         clearInterval(interval);
+//     });
+// });
+
+const getApiAndEmit = (socket, data) => {
+    // Emitting a new message. Will be consumed by the client
+    socket.emit("FromAPI", data);
+};
+app.set("socketService", new SocketService(http));
+
+http.listen(port, function () {
     console.log("Running FirstRest on Port " + port);
 })
+module.exports = { io, getApiAndEmit };

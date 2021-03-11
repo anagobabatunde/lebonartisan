@@ -5,8 +5,8 @@ make
 docker
 docker-compose
 
-change host if you want to launch without docker
-in database.js change hostname from db to your_ip_adress
+change mongo db host if you want to launch project without docker
+in database.js change hostname from "mongo" to your_ip_adress
 
 launch with Makefile
 
@@ -16,3 +16,4 @@ int back dir mv .env.example .env
 
 int root make build-all
 make
+watch log to see ip adress for react app

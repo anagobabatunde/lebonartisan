@@ -1,15 +1,24 @@
 const { ObjectID } = require("mongodb");
 const db = require("../database")
 var ObjectId = require('mongodb').ObjectId;
+const { io, getApiAndEmit } = require("../../server")
 
 exports.index = function (req, res) {
     db.connect((err) => {
         if (err) throw err
-        db.client.collection('Product').find().toArray().then(result => res.json({
-            status: "success",
-            message: "Got Product Successfully!",
-            data: result
-        })).catch(error => res.json({
+        db.client.collection('Product').find().toArray().then(result => {
+
+            try {
+                req.app.get("socketService").emiter('getAllProduct', "defzr");
+            } catch (err) {
+                console.log(err)
+            }
+            return res.json({
+                status: "success",
+                message: "Got Product Successfully!",
+                data: result,
+            })
+        }).catch(error => res.json({
             status: "error",
             message: err
         }))
@@ -25,11 +34,18 @@ exports.add = function (req, res) {
             warranty_years: req.body.warranty_years,
             available: req.body.available
         };
-        db.client.collection('Product').insertOne(Product).then(result => res.json({
-            status: "success",
-            message: "Add Product Successfully!",
-            data: Product
-        })).catch(error => res.json({
+        db.client.collection('Product').insertOne(Product).then(result => {
+            try {
+                req.app.get("socketService").emiter('onProductAdd', result);
+            } catch (err) {
+                console.log(err)
+            }
+            return res.json({
+                status: "success",
+                message: "Add Product Successfully!",
+                data: Product
+            })
+        }).catch(error => res.json({
             status: "error",
             message: err
         }))

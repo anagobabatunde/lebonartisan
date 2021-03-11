@@ -54,7 +54,7 @@ export const API = {
     },
     deleteProduct(id) {
         return axios
-            .get(`${constants.route.delete.delete_by_id}/${id}`)
+            .delete(`${constants.route.delete.delete_by_id}/${id}`)
             .then((response) => response.data)
             .catch((error) => error.response.data);
     },
