@@ -49,6 +49,9 @@ export default function CardProducts({ product, image }) {
                         <Typography gutterBottom component="h6">
                             Warranty : {product.warranty_years} years
                         </Typography>
+                        <Typography gutterBottom component="h6">
+                            Available : {product.available == true ? "yes" : "no"}
+                        </Typography>
                     </CardContent>
                 </div>
             </CardActionArea>

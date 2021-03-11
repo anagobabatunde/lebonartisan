@@ -13,10 +13,10 @@ const Products = () => {
 
 
     return (
-        <div>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
             {products.map((item, i) => {
                 return (
-                    <div key={i}>
+                    <div key={i} style={{ margin: "5px" }}>
                         <Card product={item} image={"https://www.york.ac.uk/media/study/courses/undergraduate/electronics/Yellow-circuit-EE-crop1200.jpg"} key={item._id} />
                     </div>
                 )
